@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply min-h-screen font-sans text-surface-800 dark:text-surface-100 overflow-x-hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-semibold;
+  }
+  
+  h1 {
+    @apply text-3xl md:text-4xl;
+  }
+  
+  h2 {
+    @apply text-2xl md:text-3xl;
+  }
+  
+  h3 {
+    @apply text-xl md:text-2xl;
+  }
+  
+  h4 {
+    @apply text-lg md:text-xl;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  
+  .btn-primary {
+    @apply btn bg-primary hover:bg-primary-dark text-white focus:ring-primary;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-secondary hover:bg-secondary-dark text-white focus:ring-secondary;
+  }
+  
+  .btn-outline {
+    @apply btn border-2 border-surface-300 dark:border-surface-700 hover:bg-surface-100 dark:hover:bg-surface-800 focus:ring-surface-300 dark:focus:ring-surface-700;
+  }
+  
+  .card {
+    @apply rounded-xl bg-white dark:bg-surface-800 shadow-card dark:shadow-none border border-surface-200 dark:border-surface-700 overflow-hidden transition-all;
+  }
+  
+  .input {
+    @apply w-full rounded-lg border-2 border-surface-300 dark:border-surface-700 bg-white dark:bg-surface-800 px-4 py-2 text-surface-800 dark:text-surface-100 focus:border-primary dark:focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 dark:focus:ring-primary/30 placeholder:text-surface-400 dark:placeholder:text-surface-500;
+  }
+  
+  .neu-card {
+    @apply dark:bg-surface-800 rounded-2xl transition-all;
+    box-shadow: var(--shadow-neu);
+  }
+  
+  .glass-card {
+    @apply rounded-2xl backdrop-blur-lg bg-white/70 dark:bg-surface-800/70 border border-white/20 dark:border-surface-700/20;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .animate-in {
+    animation: animateIn 0.3s ease forwards;
+  }
+  
+  @keyframes animateIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+:root {
+  --shadow-neu: 5px 5px 15px #d1d9e6, -5px -5px 15px #ffffff;
+}
+
+.dark {
+  --shadow-neu: 5px 5px 15px rgba(0, 0, 0, 0.3), -5px -5px 15px rgba(255, 255, 255, 0.05);
+}
+
+/* Required for react-toastify */
+@import 'react-toastify/dist/ReactToastify.css';
