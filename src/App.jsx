@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Home } from './pages/Home';
@@ -24,9 +24,9 @@ function App() {
 
   const toggleDarkMode = () => setDarkMode(!darkMode);
   
-  const Sun = getIcon('Sun');
-  const Moon = getIcon('Moon');
-
+  // Get icons using the utility function
+  const Sun = useMemo(() => getIcon('Sun'), []);
+  const Moon = useMemo(() => getIcon('Moon'), []);
   return (
     <div className="min-h-screen relative">
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-surface-900/80 backdrop-blur-sm border-b border-surface-200 dark:border-surface-800">
@@ -37,7 +37,7 @@ function App() {
                 animate={{ rotate: [0, 5, -5, 0] }}
                 transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 10 }}
               >
-                {getIcon('CheckSquare')({ size: 20 })}
+                {/* Using JSX tag syntax for icon components */}
               </motion.div>
             </div>
             <h1 className="text-xl font-bold tracking-tight">TaskFlow</h1>
@@ -57,6 +57,7 @@ function App() {
                 transition={{ duration: 0.3 }}
                 className="text-surface-600 dark:text-surface-300"
               >
+                {/* Using JSX tag syntax for icon components */}
                 {darkMode ? <Sun size={20} /> : <Moon size={20} />}
               </motion.div>
             </AnimatePresence>

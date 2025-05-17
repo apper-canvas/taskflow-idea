@@ -1,28 +1,33 @@
-import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { toast } from 'react-toastify';
-import { format } from 'date-fns';
-import { getIcon } from '../utils/iconUtils';
-
-const MainFeature = () => {
-  // Icons
-  const PlusIcon = getIcon('Plus');
-  const TrashIcon = getIcon('Trash2');
-  const EditIcon = getIcon('Edit');
-  const CheckIcon = getIcon('Check');
-  const CalendarIcon = getIcon('Calendar');
-  const AlertCircleIcon = getIcon('AlertCircle');
-  const FlagIcon = getIcon('Flag');
-  const SaveIcon = getIcon('Save');
+import { useState, useRef, useEffect, useMemo } from 'react';
+@@ -292,15 +292,15 @@
+  // Memoize icon components as they don't change
+  const icons = useMemo(() => ({
+    Plus: getIcon('Plus'),
+    Trash2: getIcon('Trash2'),
+    Edit: getIcon('Edit'),
+    Check: getIcon('Check'),
+    Calendar: getIcon('Calendar'),
+    AlertCircle: getIcon('AlertCircle'),
+    Flag: getIcon('Flag'),
+    Save: getIcon('Save'),
+    X: getIcon('X'),
+    ListFilter: getIcon('ListFilter'),
+    ArrowUp: getIcon('ArrowUp'),
+    ArrowDown: getIcon('ArrowDown'),
+    Search: getIcon('Search'),
+    Bell: getIcon('Bell'),
+    Clock: getIcon('Clock'),
+    CheckSquare: getIcon('CheckSquare'), // Added CheckSquare icon
+  }), []);
   const XIcon = getIcon('X');
-  const ListFilterIcon = getIcon('ListFilter');
-  const ArrowUpIcon = getIcon('ArrowUp');
-  const ArrowDownIcon = getIcon('ArrowDown');
-  const SearchIcon = getIcon('Search');
-  const BellIcon = getIcon('Bell');
-  const ClockIcon = getIcon('Clock');
-  
-  // Task states
+               ref={searchInputRef}
+               type="text"
+               placeholder="Search tasks... (Ctrl+K)"
+               value={searchTerm}
+               onChange={(e) => setSearchTerm(e.target.value)}
+               className="pl-10 pr-4 py-2 rounded-lg border-2 border-surface-200 dark:border-surface-700 bg-white dark:bg-surface-800 w-full md:w-60 focus:outline-none focus:border-primary dark:focus:border-primary"
+             />
+           </div>
   const [tasks, setTasks] = useState(() => {
     const savedTasks = localStorage.getItem('tasks');
     return savedTasks ? JSON.parse(savedTasks) : [
@@ -351,22 +356,22 @@ const MainFeature = () => {
               >
                 {sortDirection === 'asc' ? <ArrowUpIcon size={16} /> : <ArrowDownIcon size={16} />}
               </button>
-            </div>
+@@ -353,14 +353,14 @@
           </div>
         </div>
       
-        {/* Add Task Button */}
+ 
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setIsAddFormVisible(true)}
           className="mb-6 btn btn-primary w-full shadow-lg shadow-primary/20 dark:shadow-primary/10 group"
         >
-          <PlusIcon size={18} className="mr-2 transition-transform group-hover:rotate-90" />
+@@ -364,7 +364,7 @@
           Add New Task
         </motion.button>
       
-        {/* Add Task Form */}
+ 
         <AnimatePresence>
           {isAddFormVisible && (
             <motion.div
@@ -467,18 +472,18 @@ const MainFeature = () => {
                   <button
                     type="submit"
                     className="btn btn-primary"
-                  >
+@@ -469,7 +469,7 @@
                     <SaveIcon size={18} className="mr-2" />
                     Save Task
                   </button>
-                </div>
+@@ -473,14 +473,14 @@
               </form>
             </motion.div>
           )}
-        </AnimatePresence>
-        
-        {/* Tasks List */}
-        {filteredTasks.length > 0 ? (
+           </motion.div>
+         )}
+       </AnimatePresence>
+ 
           <div className="space-y-3">
             <AnimatePresence initial={false}>
               {filteredTasks.map(task => (
@@ -669,30 +674,30 @@ const MainFeature = () => {
             {searchTerm && (
               <button 
                 onClick={() => setSearchTerm('')}
-                className="btn btn-outline mx-auto"
+@@ -671,7 +671,7 @@
               >
                 Clear Search
               </button>
-            )}
+@@ -675,14 +675,14 @@
           </motion.div>
         )}
       </motion.div>
-      
-      {/* Task Detail Panel */}
+       </motion.div>
+ 
       <motion.div 
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.3, delay: 0.2 }}
         className="md:col-span-1"
-      >
+@@ -686,7 +686,7 @@
         <div className="sticky top-20">
           <div className="bg-surface-50 dark:bg-surface-800/50 rounded-xl border border-surface-200 dark:border-surface-700 h-full p-4">
             {selectedTask ? (
-              <div className="space-y-4">
+@@ -690,7 +690,7 @@
                 <h3 className="text-xl font-bold">{selectedTask.title}</h3>
                 
                 <div className="flex flex-wrap gap-2">
-                  <span className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusClasses(selectedTask.status)}`}>
+@@ -694,7 +694,7 @@
                     {selectedTask.status === 'todo' ? 'To Do' : 
                      selectedTask.status === 'in_progress' ? 'In Progress' : 
                      selectedTask.status.charAt(0).toUpperCase() + selectedTask.status.slice(1)}
@@ -715,7 +720,7 @@ const MainFeature = () => {
                 <div className="space-y-2">
                   <div className="flex items-center">
                     <CalendarIcon size={16} className="mr-2 text-primary" />
-                    <div>
+@@ -717,7 +717,7 @@
                       <h4 className="text-sm font-semibold">Due Date</h4>
                       <p className={`text-sm ${isPastDue(selectedTask.dueDate) && selectedTask.status !== 'completed' ? 'text-red-500 font-medium' : ''}`}>
                         {formatDate(selectedTask.dueDate)}
@@ -727,7 +732,7 @@ const MainFeature = () => {
                     <div className="flex items-center">
                       <FlagIcon size={16} className="mr-2 text-primary" />
                       <div>
-                        <h4 className="text-sm font-semibold">Project</h4>
+@@ -729,7 +729,7 @@
                         <p className="text-sm">{selectedTask.project}</p>
                       </div>
                     </div>
@@ -738,7 +743,7 @@ const MainFeature = () => {
                     <div>
                       <h4 className="text-sm font-semibold">Created</h4>
                       <p className="text-sm">{formatDate(selectedTask.createdAt)}</p>
-                    </div>
+@@ -738,7 +738,7 @@
                   </div>
                 </div>
                 
